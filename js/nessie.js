@@ -29,7 +29,7 @@ const NessieAPI = {
 
     // Example Nessie endpoint pattern (subject to change in their docs):
     // GET https://api.nessieisreal.com/accounts/{accountId}/purchases?key={API_KEY}
-    const url = `https://api.nessieisreal.com/accounts/${encodeURIComponent(accountId)}/purchases?key=${encodeURIComponent(key)}`;
+    const url = `http://api.nessieisreal.com/accounts/${encodeURIComponent(accountId)}/purchases?key=${encodeURIComponent(key)}`;
 
     try {
       const res = await fetch(url);
