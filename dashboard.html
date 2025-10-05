@@ -4,14 +4,168 @@
   <meta charset="UTF-8" />
   <title>Limoneta — Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link href="css/styles.css" rel="stylesheet" />
+  <style>
+    :root {
+      --accent: #facc15;
+      --accent-dark: #eab308;
+      --danger: #ef4444;
+      --bg1: #fffde7;
+      --bg2: #fefce8;
+      --text: #1e293b;
+      --muted: #64748b;
+      --line: #e2e8f0;
+      --radius: 16px;
+      --shadow: 0 6px 20px rgba(0,0,0,0.08);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body.page {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: linear-gradient(180deg, var(--bg1), var(--bg2));
+      color: var(--text);
+      overflow-x: hidden;
+    }
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--line);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .brand {
+      font-weight: 800;
+      font-size: 1.6rem;
+      color: var(--accent-dark);
+    }
+    .btn {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 0.6rem 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.1s ease;
+    }
+    .btn:hover { background: var(--accent-dark); transform: translateY(-2px); }
+    .btn--ghost { background: transparent; color: var(--accent-dark); border: 2px solid var(--accent-dark); }
+
+    .container {
+      max-width: 960px;
+      margin: 2rem auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      padding: 0 1rem;
+    }
+    .card {
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 1.8rem;
+      backdrop-filter: blur(10px);
+      animation: fadeUp 0.6s ease;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .muted { color: var(--muted); }
+    .grid {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    }
+    .stat {
+      background: #f8fafc;
+      border-radius: 12px;
+      padding: 1rem;
+      text-align: center;
+      transition: transform 0.2s ease;
+    }
+    .stat:hover { transform: scale(1.03); }
+    .stat__label { color: var(--muted); font-size: 0.9rem; }
+    .stat__value { font-size: 1.3rem; font-weight: 700; }
+
+    .bar {
+      margin-top: 1rem;
+      transition: all 0.3s ease;
+    }
+    .bar__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 600;
+    }
+    .bar__track {
+      background: #e5e7eb;
+      border-radius: 8px;
+      height: 12px;
+      margin-top: 0.4rem;
+      overflow: hidden;
+    }
+    .bar__fill {
+      height: 100%;
+      width: 0%;
+      background: var(--accent);
+      border-radius: 8px;
+      transition: width 0.5s ease, background 0.3s ease;
+    }
+    .bar__fill.over { background: var(--danger); }
+
+    .form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+    .input {
+      flex: 1;
+      min-width: 120px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 0.6rem 0.8rem;
+    }
+    .input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(250, 204, 21, 0.3);
+      outline: none;
+    }
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+    .table th, .table td {
+      padding: 0.75rem;
+      border-bottom: 1px solid var(--line);
+    }
+    .table th { text-align: left; color: var(--muted); font-weight: 600; }
+
+    footer {
+      text-align: center;
+      color: var(--muted);
+      margin: 1rem 0 2rem;
+      font-size: 0.9rem;
+    }
+    .insight {
+      margin-top: 1rem;
+      font-weight: 600;
+      color: var(--accent-dark);
+      font-size: 1rem;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+  </style>
 </head>
 <body class="page">
   <header class="topbar">
-    <div class="brand">🍋 Limoneta</div>
-    <nav>
-      <button id="resetBtn" class="btn btn--ghost">Reset Profile</button>
-    </nav>
+    <div class="brand">Limoneta</div>
+    <button id="resetBtn" class="btn btn--ghost">Reset Profile</button>
   </header>
 
   <main class="container">
@@ -20,62 +174,40 @@
       <p class="muted" id="goalLine"></p>
 
       <div class="grid">
-        <div class="stat">
-          <div class="stat__label">Monthly income</div>
-          <div class="stat__value" id="incomeValue">$0</div>
-        </div>
-        <div class="stat">
-          <div class="stat__label">Rent</div>
-          <div class="stat__value" id="rentValue">—</div>
-        </div>
-        <div class="stat">
-          <div class="stat__label">Month-to-date spend</div>
-          <div class="stat__value" id="mtdSpend">$0</div>
-        </div>
+        <div class="stat"><div class="stat__label">Monthly income</div><div class="stat__value" id="incomeValue">$0</div></div>
+        <div class="stat"><div class="stat__label">Rent</div><div class="stat__value" id="rentValue">—</div></div>
+        <div class="stat"><div class="stat__label">Month-to-date spend</div><div class="stat__value" id="mtdSpend">$0</div></div>
       </div>
     </section>
 
     <section class="card">
       <h3>50–30–20 Breakdown</h3>
-      <div id="breakdownBars" class="bars">
-        <div class="bar">
-          <div class="bar__header">
-            <span>Needs (50%)</span>
-            <span id="needsAmounts">$0 / $0</span>
-          </div>
-          <div class="bar__track"><div id="needsBar" class="bar__fill"></div></div>
-        </div>
-
-        <div class="bar">
-          <div class="bar__header">
-            <span>Wants (30%)</span>
-            <span id="wantsAmounts">$0 / $0</span>
-          </div>
-          <div class="bar__track"><div id="wantsBar" class="bar__fill"></div></div>
-        </div>
-
-        <div class="bar">
-          <div class="bar__header">
-            <span>Savings (20%)</span>
-            <span id="savingsAmounts">$0 / $0</span>
-          </div>
-          <div class="bar__track"><div id="savingsBar" class="bar__fill"></div></div>
-        </div>
+      <div class="bar">
+        <div class="bar__header"><span>Needs (50%)</span><span id="needsAmounts">$0 / $0</span></div>
+        <div class="bar__track"><div id="needsBar" class="bar__fill"></div></div>
+      </div>
+      <div class="bar">
+        <div class="bar__header"><span>Wants (30%)</span><span id="wantsAmounts">$0 / $0</span></div>
+        <div class="bar__track"><div id="wantsBar" class="bar__fill"></div></div>
+      </div>
+      <div class="bar">
+        <div class="bar__header"><span>Savings (20%)</span><span id="savingsAmounts">$0 / $0</span></div>
+        <div class="bar__track"><div id="savingsBar" class="bar__fill"></div></div>
       </div>
 
-      <p id="tip" class="tip"></p>
+      <p id="tip" class="insight">Loading insights...</p>
     </section>
 
     <section class="card">
-      <div class="flex-between">
+      <div style="display:flex;justify-content:space-between;align-items:center;">
         <h3>Transactions</h3>
-        <div class="flex gap-8">
+        <div>
           <button id="fetchBtn" class="btn">Fetch from Nessie</button>
           <button id="seedBtn" class="btn btn--ghost">Add Sample Data</button>
         </div>
       </div>
 
-      <form id="addTxForm" class="form form--inline">
+      <form id="addTxForm" class="form">
         <input class="input" type="date" name="date" required />
         <input class="input" type="text" name="description" placeholder="Description" required />
         <input class="input" type="number" name="amount" step="0.01" min="0" placeholder="Amount" required />
@@ -88,29 +220,56 @@
         <button class="btn btn--primary" type="submit">Add</button>
       </form>
 
-      <div class="table-wrap">
-        <table class="table" id="txTable">
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Description</th>
-              <th class="right">Amount</th>
-              <th>Category</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody id="txBody"></tbody>
-        </table>
-      </div>
+      <table class="table" id="txTable">
+        <thead><tr><th>Date</th><th>Description</th><th>Amount</th><th>Category</th><th></th></tr></thead>
+        <tbody id="txBody"></tbody>
+      </table>
     </section>
   </main>
 
-  <footer class="footer muted small">
-    Nessie is a sandbox; data shown here is mock/demo.
-  </footer>
+  <footer>Nessie sandbox; demo data only.</footer>
 
   <script src="js/storage.js"></script>
   <script src="js/nessie.js"></script>
   <script src="js/app.js"></script>
+
+  <script>
+    // Smoothly update bars + friendly motivational insights
+    function updateBarsAndInsights() {
+      const bars = [
+        { id: 'needs', label: 'Needs' },
+        { id: 'wants', label: 'Wants' },
+        { id: 'savings', label: 'Savings' }
+      ];
+      let overCount = 0;
+      bars.forEach(b => {
+        const amtEl = document.getElementById(b.id + 'Amounts');
+        const barEl = document.getElementById(b.id + 'Bar');
+        if (!amtEl || !barEl) return;
+        const [spentRaw, totalRaw] = amtEl.textContent.replace(/\$/g, '').split('/');
+        const spent = parseFloat(spentRaw);
+        const total = parseFloat(totalRaw);
+        if (isNaN(spent) || isNaN(total) || total === 0) return;
+        const pct = Math.min(100, (spent / total) * 100);
+        barEl.style.width = pct + '%';
+        if (spent > total) {
+          barEl.classList.add('over');
+          overCount++;
+        } else {
+          barEl.classList.remove('over');
+        }
+      });
+      const tip = document.getElementById('tip');
+      if (!tip) return;
+      if (overCount === 0) {
+        tip.textContent = "Great job! You're staying on track with your budget 🌟";
+      } else if (overCount === 1) {
+        tip.textContent = "You're doing okay — maybe tighten up one category 💪";
+      } else {
+        tip.textContent = "You’re over in a few areas, but don’t worry — every month is a new chance 🌻";
+      }
+    }
+    setInterval(updateBarsAndInsights, 1000);
+  </script>
 </body>
 </html>

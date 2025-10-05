@@ -4,12 +4,105 @@
   <meta charset="UTF-8" />
   <title>Limoneta — Welcome</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link href="css/styles.css" rel="stylesheet" />
+  <style>
+    :root {
+      --accent: #facc15;
+      --accent-dark: #eab308;
+      --bg1: #fffde7;
+      --bg2: #fefce8;
+      --text: #1e293b;
+      --gray: #64748b;
+      --radius: 18px;
+      --shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body.page {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: linear-gradient(180deg, var(--bg1), var(--bg2));
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      overflow-x: hidden;
+    }
+    .card {
+      background: rgba(255, 255, 255, 0.85);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      padding: 3rem 2.5rem;
+      max-width: 460px;
+      width: 100%;
+      text-align: center;
+      animation: fadeIn 0.8s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    h1.brand {
+      font-size: 2.4rem;
+      font-weight: 800;
+      color: var(--accent-dark);
+      letter-spacing: 0.5px;
+      margin-bottom: 0.5rem;
+    }
+    p.muted { color: var(--gray); margin-bottom: 1.5rem; }
+    .form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      animation: fadeIn 1s ease 0.2s both;
+    }
+    .form__label {
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+      font-weight: 600;
+    }
+    .input {
+      margin-top: 0.25rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 0.8rem 1rem;
+      font-size: 1rem;
+      transition: border 0.2s, box-shadow 0.2s;
+    }
+    .input:focus {
+      border-color: var(--accent-dark);
+      box-shadow: 0 0 0 3px rgba(250, 204, 21, 0.3);
+      outline: none;
+    }
+    .btn {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 0.9rem 1.25rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.1s ease;
+    }
+    .btn:hover { background: var(--accent-dark); transform: translateY(-2px); }
+    details summary {
+      cursor: pointer;
+      color: var(--accent-dark);
+      font-weight: 600;
+      margin-top: 0.5rem;
+    }
+    footer {
+      margin-top: 1.2rem;
+      color: var(--gray);
+      font-size: 0.9rem;
+    }
+  </style>
 </head>
 <body class="page">
-  <main class="card card--center">
-    <h1 class="brand">🍋 Limoneta</h1>
-    <p class="muted">A friendly 50–30–20 budgeting helper.</p>
+  <main class="card">
+    <h1 class="brand">Limoneta</h1>
+    <p class="muted">Your friendly 50–30–20 budgeting companion.</p>
 
     <form id="signupForm" class="form">
       <label class="form__label">Your name
@@ -17,7 +110,7 @@
       </label>
 
       <label class="form__label">Monthly income (after tax)
-        <input class="input" type="number" name="income" step="0.01" min="0" placeholder="e.g., 1800" required />
+        <input class="input" type="number" name="income" step="0.01" min="0" placeholder="e.g., 2500" required />
       </label>
 
       <label class="form__label">Monthly rent (optional)
@@ -27,23 +120,23 @@
       <label class="form__label">Your goal
         <select class="input" name="goal">
           <option value="save">Save money</option>
-          <option value="learn">Understand my money better</option>
+          <option value="learn">Understand my spending</option>
           <option value="debt">Pay down debt</option>
         </select>
       </label>
 
-      <details class="details">
-        <summary>Nessie connection (optional for now)</summary>
-        <p class="muted small">
-          Use your Nessie sandbox values. If you skip this, you can still add transactions manually on the dashboard.
-        </p>
+      <details>
+        <summary>Nessie connection (optional)</summary>
+        <p class="muted small">Use your Nessie sandbox account or skip to add transactions manually.</p>
         <label class="form__label">Nessie Account ID
           <input class="input" type="text" name="accountId" placeholder="acct_..." />
         </label>
       </details>
 
-      <button class="btn btn--primary" type="submit">Continue</button>
+      <button class="btn" type="submit">Continue</button>
     </form>
+
+    <footer>Built with ☀️ care — Limoneta</footer>
   </main>
 
   <script src="js/storage.js"></script>
