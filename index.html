@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Limoneta — Welcome</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="css/styles.css" rel="stylesheet" />
+</head>
+<body class="page">
+  <main class="card card--center">
+    <h1 class="brand">🍋 Limoneta</h1>
+    <p class="muted">A friendly 50–30–20 budgeting helper.</p>
+
+    <form id="signupForm" class="form">
+      <label class="form__label">Your name
+        <input class="input" type="text" name="name" placeholder="e.g., Maya" required />
+      </label>
+
+      <label class="form__label">Monthly income (after tax)
+        <input class="input" type="number" name="income" step="0.01" min="0" placeholder="e.g., 1800" required />
+      </label>
+
+      <label class="form__label">Monthly rent (optional)
+        <input class="input" type="number" name="rent" step="0.01" min="0" placeholder="e.g., 900" />
+      </label>
+
+      <label class="form__label">Your goal
+        <select class="input" name="goal">
+          <option value="save">Save money</option>
+          <option value="learn">Understand my money better</option>
+          <option value="debt">Pay down debt</option>
+        </select>
+      </label>
+
+      <details class="details">
+        <summary>Nessie connection (optional for now)</summary>
+        <p class="muted small">
+          Use your Nessie sandbox values. If you skip this, you can still add transactions manually on the dashboard.
+        </p>
+        <label class="form__label">Nessie Account ID
+          <input class="input" type="text" name="accountId" placeholder="acct_..." />
+        </label>
+      </details>
+
+      <button class="btn btn--primary" type="submit">Continue</button>
+    </form>
+  </main>
+
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>

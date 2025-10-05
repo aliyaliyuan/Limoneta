@@ -1,0 +1,5 @@
+
+export default {
+  API_KEY: "YOUR_NESSIE_API_KEY_HERE",
+  ACCOUNT_ID: "YOUR_NESSIE_ACCOUNT_ID_HERE"
+};
